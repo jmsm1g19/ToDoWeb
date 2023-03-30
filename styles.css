@@ -71,8 +71,15 @@ li span {
     cursor: pointer;
 }
 
-li span:hover {
-    color: red;
+.deleteBtn span {
+    /* Add your desired styles for the delete button's content */
+    font-weight: bold;
+    font-size: 16px;
+}
+.deleteBtn:hover {
+    /* Add your desired styles for the delete button's hover state */
+    background-color: #f44336;
+    color: white;
 }
 
 

@@ -1,152 +1,221 @@
-document.getElementById("addBtn").addEventListener("click", addTask);
-document.getElementById("editBtn").addEventListener("click", toggleEditMode);
-document.getElementById("todoInput").addEventListener("keydown", handleKeyDown);
+document.addEventListener("DOMContentLoaded", () => {
 
-function handleKeyDown(e) {
-    if (e.key === "Enter") {
-        addTask();
+    document.getElementById("addBtn").addEventListener("click", addTask);
+    document.getElementById("editBtn").addEventListener("click", toggleEditMode);
+    document.getElementById("todoInput").addEventListener("keydown", handleKeyDown);
+
+    function handleKeyDown(e) {
+        if (e.key === "Enter") {
+            addTask();
+        }
     }
-}
-let editMode = false;
+    let editMode = false;
 
-function toggleEditMode() {
-    editMode = !editMode;
-    document.getElementById("editBtn").textContent = editMode ? "Finish Editing" : "Edit Tasks";
-}
+    function toggleEditMode() {
+        editMode = !editMode;
+        document.getElementById("editBtn").textContent = editMode ? "Finish Editing" : "Edit Tasks";
+    }
 
-function addTask() {
-    const input = document.getElementById("todoInput");
-    const noteInput = document.getElementById("noteInput");
-    const dueDateInput = document.getElementById("dueDateInput");
-    const task = input.value.trim();
-    const note = noteInput.value.trim();
-    const dueDate = dueDateInput.value;
+    // function toggleEditMode() {
+    //     const deleteButtons = document.querySelectorAll(".deleteBtn");
+    //     const editBtn = document.getElementById("editBtn");
+    //     const isEditing = editBtn.classList.toggle("editing");
+    
+    //     if (isEditing) {
+    //         editBtn.textContent = "Done";
+    //         deleteButtons.forEach(btn => {
+    //             btn.style.display = "inline";
+    //         });
+    //     } else {
+    //         editBtn.textContent = "Edit Tasks";
+    //         deleteButtons.forEach(btn => {
+    //             btn.style.display = "none";
+    //         });
+    //     }
+    // }
 
-    if (task.length > 0) {
-        const li = document.createElement("li");
+    function addTask() {
+        const input = document.getElementById("todoInput");
+        const noteInput = document.getElementById("noteInput");
+        const dueDateInput = document.getElementById("dueDateInput");
+        const task = input.value.trim();
+        const note = noteInput.value.trim();
+        const dueDate = dueDateInput.value;
 
-        const taskContainer = document.createElement("div");
-        taskContainer.classList.add("task-content");
+        if (task.length > 0) {
+            const li = document.createElement("li");
 
-        const taskContent = document.createElement("span");
-        taskContent.textContent = task;
-        taskContainer.appendChild(taskContent);
-        li.appendChild(taskContainer);
+            const taskContainer = document.createElement("div");
+            taskContainer.classList.add("task-content");
 
-        if (dueDate) {
-            const dueDateContent = document.createElement("span");
-            dueDateContent.textContent = `Due: ${dueDate}`;
-            dueDateContent.classList.add("due-date");
-            li.appendChild(dueDateContent);
-        }
+            const taskContent = document.createElement("span");
+            taskContent.textContent = task;
+            taskContainer.appendChild(taskContent);
+            li.appendChild(taskContainer);
 
-        if (note.length > 0) {
-            const noteContent = document.createElement("div");
-            noteContent.textContent = note;
-            noteContent.classList.add("notes");
-            li.appendChild(noteContent);
-        }
+            if (dueDate) {
+                const dueDateContent = document.createElement("span");
+                dueDateContent.textContent = `Due: ${dueDate}`;
+                dueDateContent.classList.add("due-date");
+                li.appendChild(dueDateContent);
+            }
 
-        const deleteBtn = document.createElement("span");
-        deleteBtn.innerHTML = "&#x2715;"; // Unicode for the multiplication (X) character
-        deleteBtn.style.display = "none";
-        deleteBtn.addEventListener("click", () => {
-            if (editMode) {
+            if (note.length > 0) {
+                const noteContent = document.createElement("div");
+                noteContent.textContent = note;
+                noteContent.classList.add("notes");
+                li.appendChild(noteContent);
+            }
+
+            const deleteBtn = document.createElement("span");
+            deleteBtn.innerHTML = "&#x2715;";
+            deleteBtn.addEventListener("click", () => {
                 li.remove();
-            }
-        });
+            });
 
-        li.appendChild(deleteBtn);
-        document.getElementById("todoList").appendChild(li);
-        input.value = "";
-        noteInput.value = "";
+            li.appendChild(deleteBtn);
+            document.getElementById("todoList").appendChild(li);
+            input.value = "";
+            noteInput.value = "";
 
-        li.addEventListener("mouseover", () => {
-            if (editMode) {
-                deleteBtn.style.display = "inline";
-                li.setAttribute("draggable", "true");
-            } else {
+            li.addEventListener("mouseover", () => {
+                if (editMode) {
+                    deleteBtn.style.display = "inline";
+                    li.setAttribute("draggable", "true");
+                } else {
+                    deleteBtn.style.display = "none";
+                    li.removeAttribute("draggable");
+                }
+            });
+
+            li.addEventListener("mouseout", () => {
                 deleteBtn.style.display = "none";
-                li.removeAttribute("draggable");
-            }
-        });
+            });
 
-        li.addEventListener("mouseout", () => {
-            deleteBtn.style.display = "none";
-        });
-
-        li.addEventListener("dragstart", handleDragStart);
-        li.addEventListener("dragover", handleDragOver);
-        li.addEventListener("dragleave", handleDragLeave);
-        li.addEventListener("drop", handleDrop);
-        li.addEventListener("dragend", handleDragEnd);
-    }
-}
-
-let draggedItem;
-
-function handleDragStart(e) {
-    if (editMode) {
-        this.classList.add('dragged');
-        draggedItem = this;
-        e.dataTransfer.effectAllowed = 'move';
-        e.dataTransfer.setData('text/html', this.innerHTML);
-    }
-}
-
-function handleDragOver(e) {
-    if (editMode) {
-        if (e.preventDefault) {
-            e.preventDefault();
+            li.addEventListener("dragstart", handleDragStart);
+            li.addEventListener("dragover", handleDragOver);
+            li.addEventListener("dragleave", handleDragLeave);
+            li.addEventListener("drop", handleDrop);
+            li.addEventListener("dragend", handleDragEnd);
         }
 
-        e.dataTransfer.dropEffect = 'move';
+        saveTasks();
+    }
+
+    let draggedItem;
+
+    function handleDragStart(e) {
+        if (editMode) {
+            this.classList.add('dragged');
+            draggedItem = this;
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', this.innerHTML);
+        }
+    }
+
+    function handleDragOver(e) {
+        if (editMode) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+
+            e.dataTransfer.dropEffect = 'move';
+
+            // Remove hovered class from all items
+            const items = document.querySelectorAll('#todoList li');
+            items.forEach(item => item.classList.remove('hovered'));
+
+            // Add hovered class to the current item
+            this.classList.add('hovered');
+            return false;
+        }
+    }
+
+    function handleDragLeave() {
+        if (editMode) {
+            // Remove hovered class
+            this.classList.remove('hovered');
+        }
+    }
+
+    function handleDrop(e) {
+        if (editMode) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
+
+            if (draggedItem !== this) {
+                draggedItem.innerHTML = this.innerHTML;
+                this.innerHTML = e.dataTransfer.getData('text/html');
+            }
+
+            // Remove hovered class
+            this.classList.remove('hovered');
+            return false;
+        }
+    }
+
+    function handleDragEnd() {
+        this.classList.remove('dragged');
 
         // Remove hovered class from all items
         const items = document.querySelectorAll('#todoList li');
         items.forEach(item => item.classList.remove('hovered'));
-
-        // Add hovered class to the current item
-        this.classList.add('hovered');
-        return false;
     }
-}
 
-function handleDragLeave() {
-    if (editMode) {
-        // Remove hovered class
-        this.classList.remove('hovered');
+    const toggleThemeBtn = document.getElementById("toggleThemeBtn");
+    toggleThemeBtn.addEventListener("change", toggleTheme);
+
+    function toggleTheme() {
+        document.body.classList.toggle("dark-mode");
     }
-}
 
-function handleDrop(e) {
-    if (editMode) {
-        if (e.stopPropagation) {
-            e.stopPropagation();
+    function saveTasks() {
+        const tasks = document.getElementById("todoList").innerHTML;
+        localStorage.setItem("savedTasks", tasks);
+    }
+
+    // function loadTasks() {
+    //     const savedTasks = localStorage.getItem("savedTasks");
+    //     if (savedTasks) {
+    //         document.getElementById("todoList").innerHTML = savedTasks;
+    //         updateTaskEventListeners();
+    //     }
+    // }
+
+    // function updateTaskEventListeners() {
+    //     const tasks = document.querySelectorAll(".todoItem");
+    //     tasks.forEach(task => {
+    //         task.addEventListener("dragstart", dragStart);
+    //         task.addEventListener("dragover", dragOver);
+    //         task.addEventListener("drop", drop);
+    //     });
+    // }
+    const resetBtn = document.getElementById("resetBtn");
+    resetBtn.addEventListener("click", resetStorage);
+
+});
+window.addEventListener("load", () => {
+    function loadTasks() {
+        const savedTasks = localStorage.getItem("savedTasks");
+        if (savedTasks) {
+            document.getElementById("todoList").innerHTML = savedTasks;
+            updateTaskEventListeners();
         }
-
-        if (draggedItem !== this) {
-            draggedItem.innerHTML = this.innerHTML;
-            this.innerHTML = e.dataTransfer.getData('text/html');
-        }
-
-        // Remove hovered class
-        this.classList.remove('hovered');
-        return false;
     }
-}
+    function updateTaskEventListeners() {
+        const tasks = document.querySelectorAll(".todoItem");
+        tasks.forEach(task => {
+            task.addEventListener("dragstart", dragStart);
+            task.addEventListener("dragover", dragOver);
+            task.addEventListener("drop", drop);
+        });
+    }
+    loadTasks();
+});
 
-function handleDragEnd() {
-    this.classList.remove('dragged');
 
-    // Remove hovered class from all items
-    const items = document.querySelectorAll('#todoList li');
-    items.forEach(item => item.classList.remove('hovered'));
-}
-
-const toggleThemeBtn = document.getElementById("toggleThemeBtn");
-toggleThemeBtn.addEventListener("change", toggleTheme);
-
-function toggleTheme() {
-    document.body.classList.toggle("dark-mode");
+function resetStorage() {
+    localStorage.removeItem("savedTasks");
+    location.reload();
 }
