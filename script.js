@@ -144,3 +144,9 @@ function handleDragEnd() {
     items.forEach(item => item.classList.remove('hovered'));
 }
 
+const toggleThemeBtn = document.getElementById("toggleThemeBtn");
+toggleThemeBtn.addEventListener("change", toggleTheme);
+
+function toggleTheme() {
+    document.body.classList.toggle("dark-mode");
+}

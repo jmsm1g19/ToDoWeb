@@ -1,21 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ToDo App</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-    <div class="container">
-        <h1>ToDo App</h1>
-        <input type="text" id="todoInput" placeholder="Enter a task">
-        <input type="text" id="noteInput" placeholder="Enter a note (optional)">
-        <input type="date" id="dueDateInput">
-        <button id="addBtn">Add Task</button>
-        <button id="editBtn">Edit Tasks</button>
-        <ul id="todoList"></ul>
+
+    <div class="main-container">
+        <header>
+            <h1>ToDo App</h1>
+            <label class="switch">
+                <input type="checkbox" id="toggleThemeBtn">
+                <span class="slider round"></span>
+            </label>
+        </header>
+        <div class="todoapp-container">
+            <h1>List</h1>
+            <input type="text" id="todoInput" placeholder="Enter a task">
+            <input type="text" id="noteInput" placeholder="Enter a note (optional)">
+            <input type="date" id="dueDateInput">
+            <button id="addBtn">Add Task</button>
+            <button id="editBtn">Edit Tasks</button>
+            <ul id="todoList"></ul>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>
+
 </html>

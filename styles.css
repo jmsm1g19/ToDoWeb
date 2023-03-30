@@ -7,8 +7,14 @@ body {
     height: 100vh;
     margin: 0;
 }
-
-.container {
+.main-container {
+    
+    width: 500px;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.todoapp-container {
     background-color: #fff;
     padding: 30px;
     border-radius: 10px;
@@ -60,6 +66,7 @@ li {
 }
 
 li span {
+    color: #777;
     margin-left: 10px;
     cursor: pointer;
 }
@@ -95,4 +102,96 @@ li span:hover {
     color: #777;
     display: block;
     margin-top: 2px;
+}
+
+/* Dark mode */
+body.dark-mode {
+    background-color: #222;
+    color: #eee;
+}
+
+body.dark-mode .todoItem {
+    background-color: #444;
+}
+
+body.dark-mode .notes {
+    color: #bbb;
+}
+
+body.dark-mode .due-date {
+    color: #bbb;
+}
+body.dark-mode .main-container {
+    background-color: #333;
+    /* Add any other styles you'd like to apply in dark mode */
+}
+body.dark-mode .todoapp-container {
+    background-color: #333;
+    /* Add any other styles you'd like to apply in dark mode */
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em;
+    background-color: #f0f0f0;
+}
+
+/* Slider styles */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* Dark mode styles for header */
+body.dark-mode header {
+    background-color: #333;
+    color: #eee;
 }
