@@ -71,7 +71,7 @@ li span {
     cursor: pointer;
 }
 
-.deleteBtn span {
+.deleteBtn {
     /* Add your desired styles for the delete button's content */
     font-weight: bold;
     font-size: 16px;
