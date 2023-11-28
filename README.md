@@ -28,13 +28,3 @@ Contributions are what make the open-source community an amazing place to learn,
 
 ## License
 Distributed under the MIT License. See `LICENSE` for more information.
-
-## Contact
-
-Project Link: [https://github.com/jmsm1g19/ToDoWeb](https://github.com/jmsm1g19/ToDoWeb)
-
-## Acknowledgements
-- Icons and Graphics Used
-- Libraries or Frameworks Used
-- Inspiration
-- etc
